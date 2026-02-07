@@ -69,17 +69,26 @@ def compute_relative_errors(n: int, params: Input) -> tuple[float, float, float]
 def should_double_n(relative_diff: float, tol: float) -> bool:
     return relative_diff > tol
 
-def simpsons(n: int, params: Input) -> int:
+def simpsons(n: int, params: Input) -> float:
     h = get_h(params.a, params.b, n)
-    #can get x by add a + h*(value of n we are on as n increases)
-    #pattern is f(
-    return 42
+
+    total_sum = params.f(params.a) + params.f(params.b)
+
+    for i in range(1, n):
+        if i % 2 == 0:
+            total_sum += 2 * (params.f(params.a + i * h))
+        else:
+            total_sum += 4 * (params.f(params.a + i * h))
+
+    approx = total_sum * (h / 3)
+
+    return approx
 
 def get_h(a: float, b: float, n: int) -> float:
     return (b-a)/n
 
-def get_relative_error(n: int, double_n: int) -> float:
-    return abs(double_n-n)/abs(double_n)
+def get_relative_error(val_n: float, val_double_n: float) -> float:
+    return abs(val_double_n-val_n)/abs(val_double_n)
 
 
 def main():
@@ -95,7 +104,9 @@ def main():
 
     f = get_function(args.func)
 
+    result = eval_integral(Input(args.a, args.b, f, args.tol))
 
+    print (result.estimate)
 
 
 if __name__ == "__main__":
