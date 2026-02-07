@@ -75,8 +75,7 @@ def simpsons(n: int) -> int:
 
 
 def get_relative_error(n: int, double_n: int) -> float:
-    #TODO impl relative error
-    return 42
+    return abs(double_n-n)/abs(double_n)
 
 
 def main():
