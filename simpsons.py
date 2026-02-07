@@ -3,24 +3,6 @@ import math
 from typing import Callable
 from dataclasses import dataclass
 
-
-"""
-1. break into even number n intervals
-    n must be even
-    pick small even n
-        compute
-    double n
-        compute
-    compare results (with relative error, wanting less than 1%) abs(n2 - n1)/abs(n2)
-    n needs a cap
-
-2. take parabolic fits
-3. add up weighted values
-
-4. multiply that by ((b-a)/n)/3
-
-take only straight functions like linear, quadratic, constant, this is not a parser project
-"""
 @dataclass
 class Result:
     n: int
@@ -49,11 +31,52 @@ def get_function(function: str) -> Callable[[float], float]:
 
 def eval_integral(params: Input) -> Result:
     n = 2
-    #TODO return result
+    iterations = 0
+
+    while True:
+        iterations += 1
+        val_n, relative_first, relative_second = compute_relative_errors(n, params.tol)
+
+        if should_double_n(relative_first, params.tol):
+            n *= 2
+            continue
+
+        if relative_second is not None and relative_second < params.tol:
+            return Result(n, iterations, relative_first, relative_second, val_n)
+
+        if iterations > 1000:
+            raise RuntimeError("Maximum iterations exceeded")
+
+        n *= 2
+
+    raise RuntimeError("eval_integral exited unexpectedly") #this is to stop static analysis warnings.
 
 
-def simpsons():
-    pass
+def compute_relative_errors(n: int, tol: float) -> tuple[float, float, float]:
+
+    val_n = simpsons(n)
+    val_double_n = simpsons(2 * n)
+    relative_first = get_relative_error(val_n, val_double_n)
+
+    relative_second = None
+    if should_double_n(relative_first, tol):
+        insurance = simpsons(4 * n)
+        relative_second = get_relative_error(val_double_n, insurance)
+
+    return val_n, relative_first, relative_second
+
+
+def should_double_n(relative_diff: float, tol: float) -> bool:
+    return relative_diff > tol
+
+def simpsons(n: int) -> int:
+    #TODO impl simpsons
+    return 42
+
+
+def get_relative_error(n: int, double_n: int) -> float:
+    #TODO impl relative error
+    return 42
 
 
 def main():
