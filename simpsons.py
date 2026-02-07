@@ -44,7 +44,7 @@ def eval_integral(params: Input) -> Result:
         if relative_second is not None and relative_second < params.tol:
             return Result(n, iterations, relative_first, relative_second, val_n)
 
-        if iterations > 1000:
+        if iterations > 100:
             raise RuntimeError("Maximum iterations exceeded")
 
         n *= 2
@@ -59,7 +59,7 @@ def compute_relative_errors(n: int, params: Input) -> tuple[float, float, float]
     relative_first = get_relative_error(val_n, val_double_n)
 
     relative_second = None
-    if should_double_n(relative_first, params.tol):
+    if not should_double_n(relative_first, params.tol):
         insurance = simpsons(4 * n, params)
         relative_second = get_relative_error(val_double_n, insurance)
 
