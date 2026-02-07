@@ -1,4 +1,5 @@
 import math
+from simpsons import eval_integral, Input
 
 """
 test overall accuracy: constant, linear, quadratic, cubic (these will all have exact solutions)
@@ -6,3 +7,16 @@ test n validation: check if both the first and second pass give me an error valu
 try to cause premature convergence??
 
 """
+
+
+def test_linear():
+    a = 0.0
+    b = 1.0
+    f = lambda x: x
+    tol = 0.00001
+
+    result = eval_integral(Input(a, b, f, tol))
+
+    expected = 0.5
+
+    assert abs(result.estimate - expected) < tol
