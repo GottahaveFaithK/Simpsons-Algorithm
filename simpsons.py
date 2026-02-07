@@ -35,7 +35,7 @@ def eval_integral(params: Input) -> Result:
 
     while True:
         iterations += 1
-        val_n, relative_first, relative_second = compute_relative_errors(n, params.tol)
+        val_n, relative_first, relative_second = compute_relative_errors(n, params)
 
         if should_double_n(relative_first, params.tol):
             n *= 2
@@ -52,15 +52,15 @@ def eval_integral(params: Input) -> Result:
     raise RuntimeError("eval_integral exited unexpectedly") #this is to stop static analysis warnings.
 
 
-def compute_relative_errors(n: int, tol: float) -> tuple[float, float, float]:
+def compute_relative_errors(n: int, params: Input) -> tuple[float, float, float]:
 
-    val_n = simpsons(n)
-    val_double_n = simpsons(2 * n)
+    val_n = simpsons(n, params)
+    val_double_n = simpsons(2 * n, params)
     relative_first = get_relative_error(val_n, val_double_n)
 
     relative_second = None
-    if should_double_n(relative_first, tol):
-        insurance = simpsons(4 * n)
+    if should_double_n(relative_first, params.tol):
+        insurance = simpsons(4 * n, params)
         relative_second = get_relative_error(val_double_n, insurance)
 
     return val_n, relative_first, relative_second
@@ -69,10 +69,14 @@ def compute_relative_errors(n: int, tol: float) -> tuple[float, float, float]:
 def should_double_n(relative_diff: float, tol: float) -> bool:
     return relative_diff > tol
 
-def simpsons(n: int) -> int:
-    #TODO impl simpsons
+def simpsons(n: int, params: Input) -> int:
+    h = get_h(params.a, params.b, n)
+    #can get x by add a + h*(value of n we are on as n increases)
+    #pattern is f(
     return 42
 
+def get_h(a: float, b: float, n: int) -> float:
+    return (b-a)/n
 
 def get_relative_error(n: int, double_n: int) -> float:
     return abs(double_n-n)/abs(double_n)
