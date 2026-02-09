@@ -31,3 +31,25 @@ def test_quadratic():
 
     expected = 1.0 / 3.0
     assert abs(result.estimate - expected) < tol
+
+def test_cubic():
+    a = 0.0
+    b = 1.0
+    f = lambda x: x ** 3
+    tol = 0.00000000001
+
+    result = eval_integral(Input(a, b, f, tol))
+
+    expected = 0.25
+    assert abs(result.estimate - expected) < tol
+
+def test_quartic():
+    a = 0.0
+    b = 1.0
+    f = lambda x: x ** 4
+    tol = 0.00000000001
+
+    result = eval_integral(Input(a, b, f, tol))
+
+    expected = 1/5
+    assert abs(result.estimate - expected) < tol
