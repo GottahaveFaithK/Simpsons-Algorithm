@@ -53,3 +53,14 @@ def test_quartic():
 
     expected = 1/5
     assert abs(result.estimate - expected) < tol
+
+def test_sqrt():
+    a = 0.0
+    b = 1.0
+    f = lambda x: math.sqrt(x)
+    tol = 0.00000000001
+
+    result = eval_integral(Input(a, b, f, tol))
+
+    expected = 2/3
+    assert abs(result.estimate - expected) < tol
