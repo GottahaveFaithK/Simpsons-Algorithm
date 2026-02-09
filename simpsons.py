@@ -21,6 +21,8 @@ class Input:
 func_map: dict[str, Callable[[float], float]] = {
     "linear": lambda x: x,
     "quadratic": lambda x: x**2,
+    "cubic": lambda x: x**3,
+    "quartic": lambda x: x**4,
 }
 
 def get_function(function: str) -> Callable[[float], float]:
@@ -107,7 +109,14 @@ def main():
 
     result = eval_integral(Input(args.a, args.b, f, args.tol))
 
-    print (result.estimate)
+    if args.verbose:
+        print ("Result " + result.estimate.__str__() + "\n")
+        print("Number of Iterations " + result.iterations.__str__() + "\n")
+        print("N Value " + result.n.__str__() + "\n")
+        print("1st Relative Dif " + result.rel_diff_2n_n.__str__() + "\n")
+        print("1st Relative Dif " + result.rel_diff_4n_2n.__str__() + "\n")
+    else:
+        print (result.estimate)
 
 
 if __name__ == "__main__":
