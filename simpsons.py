@@ -20,6 +20,7 @@ class Input:
 
 func_map: dict[str, Callable[[float], float]] = {
     "linear": lambda x: x,
+    "quadratic": lambda x: x**2,
 }
 
 def get_function(function: str) -> Callable[[float], float]:

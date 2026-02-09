@@ -20,3 +20,14 @@ def test_linear():
     expected = 0.5
 
     assert abs(result.estimate - expected) < tol
+
+def test_quadratic():
+    a = 0.0
+    b = 1.0
+    f = lambda x: x**2
+    tol = 1e-8
+
+    result = eval_integral(Input(a, b, f, tol))
+
+    expected = 1.0 / 3.0
+    assert abs(result.estimate - expected) < tol
