@@ -114,8 +114,8 @@ def main():
         print ("Result " + result.estimate.__str__() + "\n")
         print("Number of Iterations " + result.iterations.__str__() + "\n")
         print("N Value " + result.n.__str__() + "\n")
-        print("1st Relative Dif " + result.rel_diff_2n_n.__str__() + "\n")
-        print("1st Relative Dif " + result.rel_diff_4n_2n.__str__() + "\n")
+        print("Relative Diff (2n vs n) " + result.rel_diff_2n_n.__str__() + "\n")
+        print("Relative Diff (4n vs 2n) " + result.rel_diff_4n_2n.__str__() + "\n")
     else:
         print (result.estimate)
 
