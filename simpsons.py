@@ -23,7 +23,7 @@ func_map: dict[str, Callable[[float], float]] = {
     "quadratic": lambda x: x**2,
     "cubic": lambda x: x**3,
     "quartic": lambda x: x**4,
-    "sqrt": lambda x: math.sqrt(x)
+    "sqrt": lambda x: math.sqrt(x),
 }
 
 def get_function(function: str) -> Callable[[float], float]:
